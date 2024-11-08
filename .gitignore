@@ -1,0 +1,43 @@
+# Binary files and other build artifacts
+/bin/
+/build/
+/dist/
+*.exe
+*.out
+*.o
+
+# Go modules
+/go/pkg
+/go/bin
+go.sum
+vendor/
+
+# Editor and IDE settings
+.vscode/
+.idea/
+*.swp
+
+# Environment files
+.env
+.env.*
+
+# Docker-related files
+docker-compose.override.yml
+**/Dockerfile.*
+docker-compose.yml  # Optional, ignore if sensitive data is in compose
+*.log
+logs/
+*.pid
+
+# PostgreSQL data (optional, if persisting locally)
+postgres-data/
+pgdata/
+*.pgdata
+
+# Cache files and folders
+*.DS_Store
+*.cache/
+node_modules/ # In case of any frontend code or dependencies
+
+# Git-specific
+*.orig
