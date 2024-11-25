@@ -30,3 +30,9 @@ func CreateUser(username, password string) error {
 	_, err := utils.DB.Exec(context.Background(), query, username, password, time.Now())
 	return err
 }
+
+func DeleteUser(userID int) error {
+	query := `DELETE FROM users WHERE id=$1`
+	_, err := utils.DB.Exec(context.Background(), query, userID)
+	return err
+}

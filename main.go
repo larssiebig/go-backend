@@ -19,6 +19,7 @@ func main() {
 	// Auth routes
 	r.POST("/register", handlers.Register)
 	r.POST("/login", handlers.Login)
+	r.DELETE("/user/:id", handlers.DeleteUser)
 
 	// Protected routes (JWT required)
 	protected := r.Group("/api")
