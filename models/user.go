@@ -31,7 +31,7 @@ func CreateUser(username, password string) error {
 	return err
 }
 
-// DeletedUser from the database by ID
+// DeletedUser from the database by id
 func DeleteUser(userID int) error {
 	query := `DELETE FROM users WHERE id=$1`
 	_, err := utils.DB.Exec(context.Background(), query, userID)

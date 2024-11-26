@@ -3,6 +3,7 @@ package handlers
 import (
 	"go-backend/models"
 	"go-backend/utils"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -26,6 +27,8 @@ func Register(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
 		return
 	}
+
+	log.Printf("Password: %s Username: %s", hashedPassword, input.Username)
 
 	if err := models.CreateUser(input.Username, string(hashedPassword)); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
