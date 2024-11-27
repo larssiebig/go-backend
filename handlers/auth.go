@@ -6,37 +6,47 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
+
+	"github.com/google/uuid"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
 
 func Register(c *gin.Context) {
-	var input struct {
-		Username string `json:"username" binding:"required"`
-		Password string `json:"password" binding:"required"`
-	}
+    var input struct {
+        Username string `json:"username" binding:"required"`
+        Password string `json:"password" binding:"required"`
+    }
 
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+    if err := c.ShouldBindJSON(&input); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
-		return
-	}
+	newUserID := uuid.New().String()
 
-	log.Printf("Password: %s Username: %s", hashedPassword, input.Username)
+    hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
+    if err != nil {
+        log.Printf("Error hashing password: %v", err)
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+        return
+    }
 
-	if err := models.CreateUser(input.Username, string(hashedPassword)); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
-		return
-	}
+    if err := models.CreateUser(newUserID, input.Username, string(hashedPassword)); err != nil {
+        log.Printf("Error creating user: %v", err)
+        if strings.Contains(err.Error(), "duplicate key value") {
+            c.JSON(http.StatusConflict, gin.H{"error": "User already exists"})
+        } else {
+            c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+        }
+        return
+    }
 
-	c.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
+    c.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
 }
+
 
 func Login(c *gin.Context) {
 	var input struct {

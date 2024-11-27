@@ -25,9 +25,9 @@ func GetUserByUsername(username string) (*User, error) {
 }
 
 // CreateUser adds a new user to the database
-func CreateUser(username, password string) error {
-	query := `INSERT INTO users (username, password, created_at) VALUES ($1, $2, $3)`
-	_, err := utils.DB.Exec(context.Background(), query, username, password, time.Now())
+func CreateUser(id, username, password string) error {
+	query := `INSERT INTO users (id, username, password, created_at) VALUES ($1, $2, $3, $4)`
+	_, err := utils.DB.Exec(context.Background(), id, query, username, password, time.Now())
 	return err
 }
 
