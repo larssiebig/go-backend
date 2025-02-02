@@ -1,15 +1,15 @@
 services:
-  postgres:
-    image: postgres:15
+  psql_bp:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${BLUEPRINT_DB_DATABASE}
+      POSTGRES_USER: ${BLUEPRINT_DB_USERNAME}
+      POSTGRES_PASSWORD: ${BLUEPRINT_DB_PASSWORD}
     ports:
-      - "5432:5432"
+      - "${BLUEPRINT_DB_PORT}:5432"
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - psql_volume_bp:/var/lib/postgresql/data
 
-  api:
-    build: .
-    depends_on:
-      - postgres
-    ports:
-      - "8080:8080"
+volumes:
+  psql_volume_bp:

@@ -1,43 +1,34 @@
-# Binary files and other build artifacts
-/bin/
-/build/
-/dist/
+# Binaries for programs and plugins
 *.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with "go test -c"
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
 *.out
-*.o
 
-# Go modules
-/go/pkg
-/go/bin
-go.sum
-vendor/
+# Dependency directories (remove the comment below to include it)
+# vendor/
 
-# Editor and IDE settings
-.vscode/
-.idea/
-*.swp
+# Go workspace file
+go.work
+tmp/
 
-# Environment files
+# IDE specific files
+.vscode
+.idea
+
+# .env file
 .env
-.env.*
 
-# Docker-related files
-docker-compose.override.yml
-**/Dockerfile.*
-docker-compose.yml  # Optional, ignore if sensitive data is in compose
-*.log
-logs/
-*.pid
+# Project build
+main
+*templ.go
 
-# PostgreSQL data (optional, if persisting locally)
-postgres-data/
-pgdata/
-*.pgdata
+# OS X generated file
+.DS_Store
 
-# Cache files and folders
-*.DS_Store
-*.cache/
-node_modules/ # In case of any frontend code or dependencies
-
-# Git-specific
-*.orig
